@@ -11,6 +11,7 @@ import com.capgemini.go.exception.ProductException;
 import com.capgemini.go.service.ProductService;
 import com.capgemini.go.service.ProductServiceImpl;
 //import com.capgemini.go.util.ProductValidator;
+import com.capgemini.go.util.ProductValidator;
 
 public class ProductController {
 	//ProductValidator valid = new ProductValidator();
@@ -42,13 +43,20 @@ public class ProductController {
 
 			case 2:
 				System.out.println(" Add products");
+				
 			
 		
 				ProductDTO prod = null;
+				
 				try {
+					System.out.println("Enter the Productid  ");
+					String productId = scan.next();
+					ProductDTO product = pService.getProd(productId);
+					boolean valid=ProductValidator.ValidateProductId(productId);
+					if(valid){
 					System.out.println(
-							"Enter <productId> <price> <color> <dimension> <specification> <manufacturer> <quantity> <productCategory> <productName>");
-					prod = new ProductDTO(scan.next(), scan.nextDouble(), scan.next(), scan.next(), scan.next(),
+							"Enter  <price> <color> <dimension> <specification> <manufacturer> <quantity> <productCategory> <productName>");
+					prod = new ProductDTO(scan.nextDouble(), scan.next(), scan.next(), scan.next(),
 							scan.next(), scan.nextInt(), scan.nextInt(), scan.next());
 					// System.out.println(pro);
 					boolean success = pService.addProd(prod);
@@ -58,16 +66,19 @@ public class ProductController {
 					else
 						System.out.println("Failed to add");
 
-				} catch (InputMismatchException e) {
+				}} catch (InputMismatchException e) {
 					System.out.println("it should be a integer value");
 					scan.nextLine();
 				} catch (ProductException e) {
-					System.err.println(e.getMessage());
+					System.err.println("e.getMessage()");
 					
-
 				}
+				
+			
+		
 				// System.out.println(pService.getMap());
 				break;
+
 
 			case 3:
 				System.out.println("EDIT");
